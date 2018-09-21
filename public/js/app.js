@@ -47375,13 +47375,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            ideas: []
+            ideas: [],
+            newIdea: null
         };
     },
-    mounted: function mounted() {
+
+    created: function created() {
         this.getIdeas();
     },
-
     methods: {
         getIdeas: function getIdeas() {
             var _this = this;
@@ -47389,6 +47390,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var url = 'mis-ideas';
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url).then(function (response) {
                 _this.ideas = response.data;
+            });
+        },
+        seveIdea: function seveIdea() {
+            var _this2 = this;
+
+            var url = 'guardar-idea';
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, {
+                description: this.newIdea
+            }).then(function (response) {
+                _this2.getIdeas();
+                _this2.newIdea = '';
             });
         }
     }
@@ -47412,7 +47424,38 @@ var render = function() {
         _c("div", { staticClass: "well" }, [
           _c("h4", [_vm._v("¿En que estás pensando?")]),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { staticClass: "input-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newIdea,
+                  expression: "newIdea"
+                }
+              ],
+              attrs: { type: "text" },
+              domProps: { value: _vm.newIdea },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newIdea = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", on: { click: _vm.seveIdea } },
+              [
+                _vm._v(
+                  "\n                        Agregar\n                    "
+                )
+              ]
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "well" }, [
             _c(
@@ -47427,20 +47470,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group" }, [
-      _c("input", { attrs: { type: "text" } }),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [
-        _vm._v("\n                        Agregar\n                    ")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

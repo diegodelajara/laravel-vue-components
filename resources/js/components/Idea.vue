@@ -6,8 +6,8 @@
                 <div class="well">
                     <h4>¿En que estás pensando?</h4>
                     <div class="input-group">
-                        <input type="text">
-                        <button class="btn btn-primary">
+                        <input type="text" v-model="newIdea">
+                        <button class="btn btn-primary" @click="seveIdea">
                             Agregar
                         </button>
                     </div>
@@ -29,10 +29,11 @@
     export default {
         data (){
             return {
-                ideas: []
+                ideas: [],
+                newIdea: null
             }
         },
-        mounted() {
+        created : function() {
             this.getIdeas()
         },
         methods: {
@@ -41,6 +42,15 @@
                 axios.get(url).then(response => {
                     this.ideas = response.data
                 });
+            },
+            seveIdea: function(){
+                let url = 'guardar-idea'
+                axios.post(url, {
+                    description: this.newIdea
+                }).then(response => {
+                    this.getIdeas()
+                    this.newIdea = ''
+                })
             }
         }
     }
