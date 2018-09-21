@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+Route::get('mis-ideas', 'IdeasController@getIdeas');
+Route::post('guardar-idea', 'IdeasController@saveIdea');
